@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Analyse the Tweet{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('predict')}}" method="post">
+        <label for="tweet">Body of Tweet to analyse</label>
+        <textarea name="tweet" id="tweet" required>{{ request.form['tweet'] }}</textarea>
+        <label for="name">Username</label>
+        <input name="name" id="name" value="{{ request.form['name'] }}" required>
+        <input type="submit" value="Send">
+    </form>
+    <br>
+    <br>
+    {{ prediction_result }}
+{% endblock %}
