@@ -6,8 +6,8 @@ def mongo_connect(server_name: str):
     db = client.twitter_db
     return db
 
-def mongo_insert(db, data: list):
+def mongo_insert(db, data: list, collection_name: str):
     try:
-        db.twitter_posts.insert_many(data)
+        db[collection_name].insert_many(data)
     except:
         print("Error!")

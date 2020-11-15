@@ -66,6 +66,7 @@ def get_tweets(username_query: str, max_result_count: int = 10, next_token: str 
     # Create query
     query = TweetQuery()
     query.author_username = username_query
+    # query.text_query = username_query
     query.max_results = int(max_result_count)
     full_url = create_url(query)
     if next_token is not None:
@@ -125,7 +126,7 @@ def crawl_twitter(username_to_query:str, max_result_count: int):
             data = get_tweets(username_query=username_to_query, max_result_count=10, next_token=next_token_str)
     return tweet_base
 
-def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db):
+def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db, collection_name: str):
     data = get_tweets(username_query=username_to_query, max_result_count=max_result_count)
     tweet_count = 0
     while True:
@@ -134,14 +135,14 @@ def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db):
         if len(tweet_list) <= 0:
             break
         else:
-            mongo_insert(db, tweet_list)
+            mongo_insert(db, tweet_list, collection_name=collection_name)
             if ("next_token" not in data["meta"].keys()) or tweet_count >= max_result_count:
                 break
             next_token_str = data["meta"]["next_token"]
             data = get_tweets(username_query=username_to_query, max_result_count=10, next_token=next_token_str)
     return tweet_count
 
-def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api):
+def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api, collection_name: str):
     tweet_list = []
     try:
         tweet_list = tweepy_get_tweets(api, username_to_query, max_result_count)
@@ -149,19 +150,21 @@ def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api):
         pass
     finally:
         if len(tweet_list) > 0:
-            mongo_insert(db, tweet_list)
+            mongo_insert(db, tweet_list, collection_name=collection_name)
         else:
             pass
     return len(tweet_list)
 
 
 if __name__ == "__main__":
-    with open('../../account_list.txt', 'r') as f:
+    file_name = "seducer"
+    path_file = f'../../archetype_lists/{file_name}.txt'
+    with open(path_file, 'r') as f:
         user_list = f.readlines()
     db = mongo_connect('localhost')
     api = tweepy_connect("../auth/my_keys.yaml")
     for user in user_list:
-        tweets_acquired = crawl_twitter_tweepy(user, 100, db, api)
+        tweets_acquired = crawl_twitter_tweepy(user, 100, db, api, file_name)
         if tweets_acquired > 0:
             print(f'Number of acquired tweets for user {user}: {tweets_acquired}')
         else:
