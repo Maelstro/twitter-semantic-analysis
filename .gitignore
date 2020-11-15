@@ -2,3 +2,6 @@ auth/
 twitter_crawler/auth/
 data/
 flask_app/ml_models/*
+.ipynb_checkpoints/*
+.Rhistory
+.idea/*
