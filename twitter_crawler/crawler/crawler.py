@@ -9,15 +9,22 @@ from typing import TypeVar, Type
 sys.path.append(".")
 T = TypeVar('T')
 
-from twitter_objects import TweetQuery
-from tweepy_functions import tweepy_connect, tweepy_get_tweets
+from .twitter_objects import TweetQuery
+from .tweepy_functions import tweepy_connect, tweepy_get_tweets
 from mongodb_conn.connect_mongo import mongo_connect, mongo_insert
 
-def read_auth() -> str:
-    with open("../auth/my_keys.yaml") as f:
+def read_auth(auth_path: str) -> str:
+    with open(auth_path) as f:
         key_data = yaml.safe_load(f)
         bearer_token = key_data['the-tweet-catcher']['bearer-token']
     return bearer_token
+
+def read_mongo_auth(auth_path: str) -> (str, str):
+    with open(auth_path) as f:
+        key_data = yaml.safe_load(f)
+        username = key_data['mongo-db']['username']
+        passwd = key_data['mongo-db']['passwd']
+    return (username, passwd)
 
 
 def get_attr_list(obj: Type[T]):
@@ -58,8 +65,8 @@ def connect_to_endpoint(url: str, headers: dict):
     return response.json()
 
 
-def get_tweets(username_query: str, max_result_count: int = 10, next_token: str = None):
-    bearer_token = read_auth()
+def get_tweets(username_query: str, auth_path: str, max_result_count: int = 10, next_token: str = None):
+    bearer_token = read_auth(auth_path)
     headers = create_headers(bearer_token)
 
     # Create query
@@ -110,9 +117,9 @@ def tweet_to_dict(json_file):
     return formatted_tweets
 
 
-def crawl_twitter(username_to_query:str, max_result_count: int):
+def crawl_twitter(username_to_query:str, max_result_count: int, auth_path: str):
     tweet_base = pd.DataFrame(columns=["username", "text", "created_at"])
-    data = get_tweets(username_query=username_to_query, max_result_count=10)
+    data = get_tweets(username_query=username_to_query, auth_path=auth_path, max_result_count=10)
     while True:
         tweet_list_req = process_tweets(data)
         if tweet_list_req.shape[0] <= 0:
@@ -122,11 +129,11 @@ def crawl_twitter(username_to_query:str, max_result_count: int):
             if ("next_token" not in data["meta"].keys()) or tweet_base.shape[0] > max_result_count:
                 break
             next_token_str = data["meta"]["next_token"]
-            data = get_tweets(username_query=username_to_query, max_result_count=10, next_token=next_token_str)
+            data = get_tweets(username_query=username_to_query, auth_path=auth_path, max_result_count=10, next_token=next_token_str)
     return tweet_base
 
-def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db, collection_name: str):
-    data = get_tweets(username_query=username_to_query, max_result_count=max_result_count)
+def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db, collection_name: str, auth_path: str):
+    data = get_tweets(username_query=username_to_query, auth_path=auth_path, max_result_count=max_result_count)
     tweet_count = 0
     while True:
         tweet_list = tweet_to_dict(data)
@@ -138,7 +145,7 @@ def crawl_twitter_mongo(username_to_query:str, max_result_count: int, db, collec
             if ("next_token" not in data["meta"].keys()) or tweet_count >= max_result_count:
                 break
             next_token_str = data["meta"]["next_token"]
-            data = get_tweets(username_query=username_to_query, max_result_count=10, next_token=next_token_str)
+            data = get_tweets(username_query=username_to_query, auth_path=auth_path, max_result_count=10, next_token=next_token_str)
     return tweet_count
 
 def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api, collection_name: str):
@@ -154,15 +161,16 @@ def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api, 
             pass
     return len(tweet_list)
 
-def scrape_tweets(user_list_name: str, path_to_list: str) -> None:
+def scrape_tweets(user_list_name: str, path_to_list: str, auth_path: str) -> None:
     from datetime import datetime
     print(f"Start time: {datetime.now()}")
     path_file = path_to_list + user_list_name +".txt"
     # path_file = f'../../archetype_lists/{user_list_name}.txt'
     with open(path_file, 'r') as f:
         user_list = f.readlines()
-    db = mongo_connect('localhost')
-    api = tweepy_connect("../auth/my_keys.yaml")
+    (username, passwd) = read_mongo_auth(auth_path)
+    db = mongo_connect(f"mongodb+srv://{username}:{passwd}@tweetdb.kpcmn.mongodb.net/<dbname>?retryWrites=true&w=majority")
+    api = tweepy_connect(auth_path)
     for user in user_list:
         tweets_acquired = crawl_twitter_tweepy(user, 100, db, api, user_list_name)
         if tweets_acquired > 0:
@@ -170,5 +178,5 @@ def scrape_tweets(user_list_name: str, path_to_list: str) -> None:
         else:
             print(f'No tweets acquired. Closing crawler for user {user}')
 
-if __name__ == "__main__":
-    scrape_tweets("test_list", "../../archetype_lists/")
+# if __name__ == "__main__":
+#     scrape_tweets("test_list", "../../archetype_lists/")
