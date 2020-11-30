@@ -13,7 +13,6 @@ from twitter_objects import TweetQuery
 from tweepy_functions import tweepy_connect, tweepy_get_tweets
 from mongodb_conn.connect_mongo import mongo_connect, mongo_insert
 
-
 def read_auth() -> str:
     with open("../auth/my_keys.yaml") as f:
         key_data = yaml.safe_load(f)
@@ -155,17 +154,21 @@ def crawl_twitter_tweepy(username_to_query:str, max_result_count: int, db, api, 
             pass
     return len(tweet_list)
 
-
-if __name__ == "__main__":
-    file_name = "seducer"
-    path_file = f'../../archetype_lists/{file_name}.txt'
+def scrape_tweets(user_list_name: str, path_to_list: str) -> None:
+    from datetime import datetime
+    print(f"Start time: {datetime.now()}")
+    path_file = path_to_list + user_list_name +".txt"
+    # path_file = f'../../archetype_lists/{user_list_name}.txt'
     with open(path_file, 'r') as f:
         user_list = f.readlines()
     db = mongo_connect('localhost')
     api = tweepy_connect("../auth/my_keys.yaml")
     for user in user_list:
-        tweets_acquired = crawl_twitter_tweepy(user, 100, db, api, file_name)
+        tweets_acquired = crawl_twitter_tweepy(user, 100, db, api, user_list_name)
         if tweets_acquired > 0:
             print(f'Number of acquired tweets for user {user}: {tweets_acquired}')
         else:
             print(f'No tweets acquired. Closing crawler for user {user}')
+
+if __name__ == "__main__":
+    scrape_tweets("test_list", "../../archetype_lists/")
