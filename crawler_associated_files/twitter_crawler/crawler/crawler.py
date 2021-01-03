@@ -1,17 +1,16 @@
 import pandas as pd
 import yaml
-import json
 import requests
 import sys
 import urllib.parse
 from typing import TypeVar, Type
 
-sys.path.append(".")
+sys.path.append("")
 T = TypeVar('T')
 
 from .twitter_objects import TweetQuery
 from .tweepy_functions import tweepy_connect, tweepy_get_tweets
-from mongodb_conn.connect_mongo import mongo_connect, mongo_insert
+from crawler_associated_files.mongodb_conn.connect_mongo import mongo_connect, mongo_insert
 
 def read_auth(auth_path: str) -> str:
     with open(auth_path) as f:

@@ -2,7 +2,7 @@ import tweepy
 import yaml
 
 import sys
-sys.path.append(".")
+sys.path.append("")
 
 def tweepy_read_auth(yaml_path) -> (str, str):
     with open(yaml_path) as f:

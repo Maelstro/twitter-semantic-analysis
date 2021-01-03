@@ -1,7 +1,7 @@
 import  argparse
 from twitter_crawler.crawler.crawler import scrape_tweets
 import sys
-sys.path.append(".")
+sys.path.append("..")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("list_name", type=str)
