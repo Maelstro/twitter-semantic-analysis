@@ -1,8 +1,8 @@
 from datetime import datetime
 from datetime import timedelta
 import sys
-sys.path.append('/home/ubuntu/twitter-semantic-analysis/twitter_crawler/')
-sys.path.append('/home/ubuntu/twitter-semantic-analysis/')
+sys.path.append('/app/crawler_associated_files/twitter_crawler/')
+sys.path.append('/app/')
 
 from crawler.crawler import scrape_tweets
 
@@ -17,7 +17,7 @@ from airflow.utils.dates import days_ago
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2020, 12, 25),
+    'start_date': datetime(2021, 1, 15, 18, 0, 0),
     'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
