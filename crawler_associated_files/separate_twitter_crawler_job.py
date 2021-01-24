@@ -4,6 +4,9 @@ import sys
 sys.path.append('/app/crawler_associated_files/twitter_crawler/')
 sys.path.append('/app/')
 
+LISTS_PATH = '/app/archetype_lists/'
+KEYS_PATH = '/app/crawler_associated_files/twitter_crawler/auth/my_keys.yaml'
+
 from crawler.crawler import scrape_tweets
 
 # The DAG object; we'll need this to instantiate a DAG
@@ -132,8 +135,8 @@ artist_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'artist',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=artist_dag,
 )
 
@@ -142,8 +145,8 @@ caregiver_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'caregiver',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=caregiver_dag,
 )
 
@@ -152,8 +155,8 @@ everyman_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'everyman',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=everyman_dag,
 )
 
@@ -162,8 +165,8 @@ explorer_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'explorer',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=explorer_dag,
 )
 
@@ -172,8 +175,8 @@ guru_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'guru',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=guru_dag,
 )
 
@@ -182,8 +185,8 @@ hero_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'hero',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=hero_dag,
 )
 
@@ -192,8 +195,8 @@ innocent_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'innocent',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=innocent_dag,
 )
 
@@ -202,8 +205,8 @@ jester_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'jester',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=jester_dag,
 )
 
@@ -212,8 +215,8 @@ magician_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'magician',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=magician_dag,
 )
 
@@ -222,8 +225,8 @@ rebel_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'rebel',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=rebel_dag,
 )
 
@@ -232,8 +235,8 @@ ruler_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'ruler',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=ruler_dag,
 )
 
@@ -242,7 +245,7 @@ seducer_job = PythonOperator(
         provide_context=False,
         python_callable=scrape_tweets,
         op_kwargs={'user_list_name': 'seducer',
-                   'path_to_list' : '/home/ubuntu/twitter-semantic-analysis/archetype_lists/',
-                   'auth_path' : '/home/ubuntu/auth/my_keys.yaml'},
+                   'path_to_list' : LISTS_PATH,
+                   'auth_path' : KEYS_PATH},
         dag=seducer_dag,
 )

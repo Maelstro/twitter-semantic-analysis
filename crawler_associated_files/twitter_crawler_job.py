@@ -5,7 +5,7 @@ sys.path.append('/app/crawler_associated_files/twitter_crawler/')
 sys.path.append('/app/')
 
 LISTS_PATH = '/app/archetype_lists/'
-KEYS_PATH = '/app/my_keys.yaml'
+KEYS_PATH = '/app/crawler_associated_files/twitter_crawler/auth/my_keys.yaml'
 
 from crawler.crawler import scrape_tweets
 
