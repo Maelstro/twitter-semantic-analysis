@@ -3,6 +3,7 @@ import yaml
 import requests
 import sys
 import urllib.parse
+from datetime import datetime
 from typing import TypeVar, Type
 
 sys.path.append("")
@@ -112,6 +113,7 @@ def tweet_to_dict(json_file):
                 'tweet_text':tweet_list["text"][i],
                 'username': df_inner["username"][i],
                 'created_at': df_inner["created_at"][i]
+                'timestamp': datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
             })
     return formatted_tweets
 

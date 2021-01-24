@@ -4,8 +4,10 @@ FROM puckel/docker-airflow
 WORKDIR /app
 COPY crawler_associated_files crawler_associated_files
 COPY docs/archetype_lists archetype_lists
-COPY auth/my_keys.yaml my_keys.yaml
+
 RUN pip install -r '/app/crawler_associated_files/requirements.txt'
+RUN pip install pyyaml
+RUN pip install dnspython
 # Change dicrectory to DAG dir
 WORKDIR /usr/local/airflow/dags
 
