@@ -112,7 +112,7 @@ def tweet_to_dict(json_file):
             formatted_tweets.append({
                 'tweet_text':tweet_list["text"][i],
                 'username': df_inner["username"][i],
-                'created_at': df_inner["created_at"][i]
+                'created_at': df_inner["created_at"][i],
                 'timestamp': datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
             })
     return formatted_tweets
