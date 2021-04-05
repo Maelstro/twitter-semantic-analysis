@@ -5,3 +5,8 @@ flask_app/ml_models/*
 .ipynb_checkpoints/*
 .Rhistory
 .idea/*
+agds/
+dist/
+dump/
+.Rproj.user
+jupyter_notebooks/binary_classification/binary_classification/sklearn_fastapi/*
