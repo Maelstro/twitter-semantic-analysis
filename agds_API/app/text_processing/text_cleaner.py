@@ -4,7 +4,7 @@ import pandas as pd
 from nltk.corpus import stopwords
 
 # Stopwords object
-with open("polish_stopwords.txt", "r") as f:
+with open("text_processing/polish_stopwords.txt", "r") as f:
     stop_words = f.read().strip("\n")
 
 # Regular expressions used for the text cleaning
