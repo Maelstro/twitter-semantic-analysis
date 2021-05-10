@@ -14,3 +14,7 @@ jupyter_notebooks/binary_classification/binary_classification/sklearn_fastapi/*
 instagram_analysis/insta_venv/
 instagram_analysis/instagram_cleared/
 jupyter_notebooks/data_mining/sequence_files/*
+tweets*.csv
+*/*.csv
+*/*.jar
+*/*.zip
