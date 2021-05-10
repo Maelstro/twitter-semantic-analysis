@@ -1,3 +1,6 @@
 instagram_dataset/
 __pycache__/
 non_available_influencers.txt
+*.zip
+.ipynb_checkpoints/
+.vscode/

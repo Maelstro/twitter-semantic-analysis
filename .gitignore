@@ -10,3 +10,7 @@ dist/
 dump/
 .Rproj.user
 jupyter_notebooks/binary_classification/binary_classification/sklearn_fastapi/*
+*.pickle
+instagram_analysis/insta_venv/
+instagram_analysis/instagram_cleared/
+jupyter_notebooks/data_mining/sequence_files/*
