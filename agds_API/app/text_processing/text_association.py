@@ -42,7 +42,7 @@ class TextProcessor(object):
         return word_dot
 
     # Method for calculating the similarity
-    def calculate_similarity(self, post_text: str) -> pd.Series:
+    def calculate_similarity(self, post_text: str) -> (pd.Series, pd.Series):
         # Calculate word-trait dot product
         post_result = self.get_trait_dot_product(post_text)
 
@@ -53,4 +53,4 @@ class TextProcessor(object):
         for idx in inf_df.index:
             inf_df.loc[idx] = np.linalg.norm(self.arch_df.loc[idx] - post_result)
 
-        return inf_df.sort_values()
+        return post_result, inf_df.sort_values()
