@@ -1,5 +1,6 @@
 # main.py - main file of the application
 from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from text_processing.text_association import TextProcessor
@@ -14,7 +15,10 @@ text_proc = TextProcessor()
 agds_api.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-@agds_api.get("/")
+@agds_api.get("/", response_class=HTMLResponse)
+async def main_page(request: Request):
+    return templates.TemplateResponse(name="process.html", context={"request": request})
+
 @agds_api.get("/hello")
 async def hello():
     return "Hello World!"
