@@ -11,7 +11,7 @@
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Praca magisterska - kojarzenie tekstu</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Praca magisterska - kojarzenie tekstu</a>
 </header>
 
 <div class="container-fluid">
@@ -43,18 +43,43 @@
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h2>Tekst źródłowy</h2>
-      </div>
-        <p>{{ input_text }}</p>
-        <br>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>Skojarzenia tekstu z cechami</h2>
+        <h2>Tekst źródłowy</h2>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-primary">Eksportuj wyniki</button>
           </div>
         </div>
+
+      </div>
+      <p>{{ input_text }}</p>
+      <br>
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Najlepiej dopasowani influencerzy</h2>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Nazwa konta influencera na portalu Instagram</th>
+              <th>Współczynnik podobieństwa (im mniejszy tym większe podobieństwo)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Generate table with association results -->
+            {% for k, v in most_similar_list.iteritems() %}
+            <tr>
+              <td>{{ k }}</td>
+              <td>{{ v }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Skojarzenia tekstu z cechami</h2>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
