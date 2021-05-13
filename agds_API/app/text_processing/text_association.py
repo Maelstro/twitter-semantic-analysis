@@ -53,4 +53,5 @@ class TextProcessor(object):
         for idx in inf_df.index:
             inf_df.loc[idx] = np.linalg.norm(self.arch_df.loc[idx] - post_result)
 
-        return post_result, inf_df.sort_values()
+        sorted_infs = inf_df.sort_values()
+        return post_result, sorted_infs
