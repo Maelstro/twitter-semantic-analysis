@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from text_processing.text_association import TextProcessor
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 # Create AGDS FastAPI instance
 agds_api = FastAPI()
@@ -33,7 +34,7 @@ async def text_association(request: Request, input_text: str = Form(...)) -> tem
         "request": request,
         "input_text": input_text,
         "traits": trait_result.to_dict(),
-        "most_similar_list": influencer_list.index[:10]
+        "most_similar_list": influencer_list[:10]
     })
 
 @agds_api.post("/nn_associate", response_class=HTMLResponse)
@@ -43,3 +44,9 @@ async def nn_association(request: Request, input_text: str = Form(...)) -> templ
         "input_text": input_text,
         "traits": {}
     })
+
+@agds_api.exception_handler(StarletteHTTPException)
+async def http_exception(request: Request, exc: StarletteHTTPException):
+    return templates.TemplateResponse(name="40X.html", context={
+        "request": request,
+    }, status_code=exc.status_code)
