@@ -11,7 +11,7 @@
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Praca magisterska - kojarzenie tekstu - {{ model_type }}</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Praca magisterska - kojarzenie tekstu</a>
 </header>
 
 <div class="container-fluid">
@@ -61,16 +61,20 @@
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>Nazwa konta influencera na portalu Instagram</th>
-              <th>Współczynnik podobieństwa (im mniejszy tym większe podobieństwo)</th>
+              <th>Nazwa konta influencera na portalu Instagram - AGDS</th>
+              <th>Współczynnik podobieństwa (im mniejszy tym większe podobieństwo) - AGDS</th>
+              <th>Nazwa konta influencera na portalu Instagram - LSTM</th>
+              <th>Współczynnik podobieństwa (im mniejszy tym większe podobieństwo) - LSTM</th>
             </tr>
           </thead>
           <tbody>
             <!-- Generate table with association results -->
-            {% for k, v in most_similar_list.iteritems() %}
+            {% for p1, p2 in both_most_similar_list %}
             <tr>
-              <td>{{ k }}</td>
-              <td>{{ v }}</td>
+              <td>{{ p1[0] }}</td>
+              <td>{{ p1[1] }}</td>
+              <td>{{ p2[0] }}</td>
+              <td>{{ p2[1] }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -84,16 +88,20 @@
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>Cecha charakteru/archetyp</th>
-              <th>Wartość wagi</th>
+              <th>Cecha charakteru/archetyp - AGDS</th>
+              <th>Wartość wagi - AGDS</th>
+              <th>Cecha charakteru/archetyp - LSTM</th>
+              <th>Wartość wagi - LSTM</th>
             </tr>
           </thead>
           <tbody>
             <!-- Generate table with association results -->
-            {% for k, v in traits.items() %}
+            {% for p1, p2 in both_traits %}
             <tr>
-              <td>{{ k }}</td>
-              <td>{{ v }}</td>
+              <td>{{ p1[0] }}</td>
+              <td>{{ p1[1] }}</td>
+              <td>{{ p2[0] }}</td>
+              <td>{{ p2[1] }}</td>
             </tr>
             {% endfor %}
           </tbody>
