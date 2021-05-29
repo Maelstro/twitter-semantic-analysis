@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    container_name: agds-redis
+    networks:
+      - backend
+    ports:
+    - 6379:6379
+
+  fastapi-app:
+    restart: always
+    build: .
+    image: agds-fastapi
+    container_name: agds-fastapi
+    depends_on:
+      - redis
+    networks:
+      - backend
+    ports:
+      - "12889:8000"
+
+networks:
+  backend:
+    driver: bridge
