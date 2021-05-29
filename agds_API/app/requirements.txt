@@ -1,10 +1,10 @@
 fastapi[all]
 jinja2
 aiofiles
-numpy
+numpy==1.19.2
 pandas
 nltk
 scipy
 tensorflow
 aiocache
-aioredis
+aioredis==2.0.0a1
